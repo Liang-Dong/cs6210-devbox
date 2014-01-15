@@ -1,0 +1,19 @@
+---
+# This playbook contains plays that will install and configure nginx web-server.
+
+- name: install nginx package
+  apt: pkg=nginx state=latest
+
+- name: create blocks directory for nginx
+  command: /bin/mkdir /etc/nginx/blocks creates=/etc/nginx/blocks
+
+- name: copy default site configuration
+  template: src=default.conf dest=/etc/nginx/conf.d/default.conf
+
+- name: configure nginx
+  template: src=blocks/{{ item }} dest=/etc/nginx/blocks/{{ item }}
+  with_items:
+    - default
+    - optimize
+    - php
+  notify: restart nginx

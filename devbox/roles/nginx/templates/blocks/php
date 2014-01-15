@@ -1,0 +1,9 @@
+location ~ \.php$ {
+    try_files $uri =404;
+
+    fastcgi_pass unix:/var/run/php5-fpm.sock;   # forward to php-fpm via sockets
+    fastcgi_index  index.php;
+    fastcgi_intercept_errors on;                # turn off on production
+
+    include fastcgi_params;
+}

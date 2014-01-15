@@ -1,0 +1,28 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: update apt packages
+  command: /usr/bin/apt-get update
+
+- name: installing tools and utility packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - vim-nox
+    - dkms
+    - libcr-dev
+    - mpich2
+    - mpich2-doc
+    - rpcbind
+    - libcurl4-openssl-dev
+    - python-dev
+    - python-setuptools
+    - python-pip
+    - htop
+
+- name: install python libraries
+  pip: name={{ item }}
+  with_items:
+    - yolk
+
+#- name: update /etc/hosts
+#  lineinfile: dest=/etc/hosts regexp='.*{{ database_hostname }}$' line='{{ database_hostaddr }} {{ database_hostname }}' state=present

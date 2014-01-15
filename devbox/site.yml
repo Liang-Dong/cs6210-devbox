@@ -1,0 +1,18 @@
+---
+# Main deployment playbook. Deploys whole stack of servers.
+
+- name: apply common configuration to all nodes
+  hosts: all
+  sudo: yes
+  user: vagrant
+  roles:
+    - common
+
+- name: configure and deploy the development server
+  hosts: dev-servers
+  sudo: yes
+  user: vagrant
+  roles:
+    - nginx
+    - php5-fpm
+
