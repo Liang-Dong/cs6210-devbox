@@ -22,11 +22,11 @@
 
     // on processor i, sense is initially true
     // in nodes[i]:
-    //    havechild[j] = true if 4 * i+j < P; otherwise false
+    //    havechild[j] = true if 4 * i + j + 1 < P; otherwise false
     //    parentpointer = &nodes[floor((i-1)/4].childnotready[(i-1) mod 4],
     //        or dummy if i = 0
     //    childpointers[0] = &nodes[2*i+1].parentsense, or &dummy if 2*i+1 >= P
-    //    childpointers[1] = &nodes[2*i+1].parentsense, or &dummy if 2*i+2 >= P
+    //    childpointers[1] = &nodes[2*i+2].parentsense, or &dummy if 2*i+2 >= P
     //    initially childnotready = havechild and parentsense = false
 	
     procedure tree_barrier

@@ -43,9 +43,13 @@ typedef struct _node_t{
 } node_t;
 
 static int num_leaves;
-static char* nodes;
+static node_t* nodes;
 
 void gtmp_barrier_aux(node_t* node, int sense);
+
+node_t* _gtmp_get_node(int i){
+  return &nodes[i];
+}
 
 void gtmp_init(int num_threads){
   int i, v, num_nodes;
@@ -78,7 +82,7 @@ void gtmp_barrier(){
   node_t* mynode;
   int sense;
 
-  mynode = node[num_leaves - 1 + (omp_get_thread_num() % num_leaves)];
+  mynode = _gtmp_get_node(num_leaves - 1 + (omp_get_thread_num() % num_leaves));
   
   /* 
      Rather than correct the sense variable after the call to 
@@ -92,7 +96,8 @@ void gtmp_barrier(){
 void gtmp_barrier_aux(node_t* node, int sense){
   int test;
 
-#pragma omp critical{
+#pragma omp critical
+{
   test = node->count;
   node->count--;
 }

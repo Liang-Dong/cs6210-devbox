@@ -25,8 +25,6 @@ static int P;
 
 void gtmpi_init(int num_threads){
   P = num_threads;
-  send_request_array = (MPI_Request*) malloc((P - 1) * sizeof(MPI_Request));
-  recv_request_array = (MPI_Request*) malloc((P - 1) * sizeof(MPI_Request));
   status_array = (MPI_Status*) malloc((P - 1) * sizeof(MPI_Status));
 }
 

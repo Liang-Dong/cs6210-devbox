@@ -18,38 +18,14 @@
 */
 
 
-static int P;
-static int count;
-static int sense;
-
-
-
 void gtmp_init(int num_threads){
-  P = num_threads;
-  count = num_threads;
-  sense = 1;
+
 }
 
 void gtmp_barrier(){
-  int local_sense;
 
-  /* Replaces the line 
-  
-        local_sense := not local_sense // each processor toggles its own sense
-     
-     from the paper.  Since sense == local_sense until all
-     threads have hit the barrier, this is equivalent.
-  */
-  local_sense = !sense;
-
-  if (1 == __sync_fetch_and_sub(&count, 1)){
-    count = P;
-    sense = local_sense;
-  }
-  else
-    while( sense != local_sense);
 }
 
 void gtmp_finalize(){
-  return;
+
 }

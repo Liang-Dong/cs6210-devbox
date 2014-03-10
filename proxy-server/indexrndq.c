@@ -22,12 +22,14 @@ int indexrndq_isempty(indexrndq_t* this){
 void indexrndq_enqueue(indexrndq_t* this, int i){
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexrndq_enqueue out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   if (indexrndq_contains(this, i)){
     fprintf(stderr, "Error: index %d is already in the indexrndq structure.", i);
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
 
   this->ip[i] = this->N;
@@ -44,12 +46,14 @@ int indexrndq_contains(indexrndq_t* this, int i){
 void indexrndq_delete(indexrndq_t* this, int i){
    if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexrndq_contains out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   if (!indexrndq_contains(this, i)){
     fprintf(stderr, "Error: index %d is not in the indexrndq structure.", i);
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   this->N--;
@@ -64,7 +68,8 @@ int indexrndq_dequeue(indexrndq_t* this){
   /* Testing for underflow */
   if(this->N <= 0){
     fprintf(stderr, "Error: indexrndq underflow\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
 
   k = (int) (1.0 * this->N * rand() / (RAND_MAX + 1.0));

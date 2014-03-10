@@ -56,7 +56,8 @@ int indexminpq_isempty(indexminpq_t* this){
 int indexminpq_contains(indexminpq_t* this, int i) {
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_contains out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   return this->qp[i] != -1;
 }
@@ -68,12 +69,14 @@ int indexminpq_size(indexminpq_t* this) {
 void indexminpq_insert(indexminpq_t* this, int i, indexminpq_key key) {
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_contains out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   if (indexminpq_contains(this, i)){
     fprintf(stderr, "Error: index %d is already in the indexminpq structure.", i);
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
    
    this->N++;
@@ -86,7 +89,8 @@ void indexminpq_insert(indexminpq_t* this, int i, indexminpq_key key) {
 int indexminpq_minindex(indexminpq_t* this) { 
   if (this->N == 0){
     fprintf(stderr, "Error: underflow in indexminpq_minindex.");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   return this->pq[1];        
 }
@@ -94,7 +98,8 @@ int indexminpq_minindex(indexminpq_t* this) {
 indexminpq_key indexminpq_minkey(indexminpq_t* this) { 
   if (this->N == 0){
     fprintf(stderr, "Error: underflow in indexminpq_minkey.");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   return this->keys[this->pq[1]];        
 }
@@ -104,7 +109,8 @@ int indexminpq_delmin(indexminpq_t* this) {
   
   if(this->N == 0){
     fprintf(stderr, "Error: underflow in indexminpq_delmin.");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   min = this->pq[1];        
@@ -118,13 +124,14 @@ int indexminpq_delmin(indexminpq_t* this) {
 indexminpq_key indexminpq_keyof(indexminpq_t* this, int i) {
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_keyof out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
 
   if (!indexminpq_contains(this, i)){
     fprintf(stderr, 
 	    "Invalid argument to indexminpq_keyof: index %d is not in the priority queue", i);
-    exit(1);
+    fflush(stderr);exit(EXIT_FAILURE);
   }
   return this->keys[i];
 }
@@ -132,13 +139,15 @@ indexminpq_key indexminpq_keyof(indexminpq_t* this, int i) {
 void indexminpq_changekey(indexminpq_t* this, int i, indexminpq_key key) {
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_changekey out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   if (!indexminpq_contains(this, i)){
     fprintf(stderr,
 	    "Invalid argument to indexminpq_changekey: index %d is not in the priority queue", i);
-    exit(1);  
+    fflush(stderr);
+    exit(EXIT_FAILURE);  
   }
   this->keys[i] = key;
   swim(this, this->qp[i]);
@@ -148,18 +157,21 @@ void indexminpq_changekey(indexminpq_t* this, int i, indexminpq_key key) {
 void indexminpq_decreasekey(indexminpq_t *this, int i, indexminpq_key key) {
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_decreasekey out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
 
   if (!indexminpq_contains(this, i)){
     fprintf(stderr,
 	    "Invalid argument to indexminpq_decreasekey: index %d is not in the priority queue", i);
-    exit(1);  
+    fflush(stderr);
+    exit(EXIT_FAILURE);  
   }
  
   if (this->keycmp(this->keys[i], key) > 0){
     fprintf(stderr,"Error: indexminpq_decreasekey called with increasing key");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
     
   this->keys[i] = key;
@@ -169,18 +181,21 @@ void indexminpq_decreasekey(indexminpq_t *this, int i, indexminpq_key key) {
 void indexminpq_increasekey(indexminpq_t *this, int i, indexminpq_key key) {
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_increasekey out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
 
   if (!indexminpq_contains(this, i)){
     fprintf(stderr,
 	    "Invalid argument to indexminpq_increasekey: index %d is not in the priority queue\n", i);
-    exit(1);  
+    fflush(stderr);
+    exit(EXIT_FAILURE);  
   }
   
   if (this->keycmp(this->keys[i], key) < 0){
     fprintf(stderr,"Error: indexminpq_increasekey called with decreasing key\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
 
   this->keys[i] = key;
@@ -192,12 +207,14 @@ void indexminpq_delete(indexminpq_t *this, int i) {
   
   if (i < 0 || i >= this->NMAX){
     fprintf(stderr, "Error: Argument to indexminpq_increasekey out of bounds\n");
-    exit(1);
+    fflush(stderr);
+    exit(EXIT_FAILURE);
   }
   
   if (!indexminpq_contains(this, i)){
     fprintf(stderr,"Error: Invalid argument to indexminpq_delete: index %d is not in the priority queue", i);
-    exit(1);  
+    fflush(stderr);
+    exit(EXIT_FAILURE);  
   }
 
   index = this->qp[i];
